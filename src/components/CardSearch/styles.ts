@@ -15,9 +15,17 @@ display: flex;
 justify-content:space-between;
 height: 50%;
 
-p{
+p {
   font-size: 1.2rem;
   color: var(--text)
+}
+
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 2rem;
+  height: 2rem;
 }
 
 `
