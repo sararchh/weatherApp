@@ -43,4 +43,10 @@ align-items: flex-end;
 p{
   font-size: 0.9rem;
 }
+
+button {
+  border: none;
+  outline: none;
+  background: transparent;
+}
 `

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { XCircle } from 'react-feather';
 
 import { Nav, Input, InputContainer } from './styles';
 
@@ -15,13 +16,18 @@ const HeaderView: React.FC = () => {
     //debounce usa timeout para detectar quando o usuario para de digitar
     clearTimeout(timeout.current);
     timeout.current = setTimeout(() => {
-      if(textInput.length >= 2) {
+      if (textInput.length >= 2) {
         searchCity(value);
-      } else{
+      } else {
         clearCity()
       }
     }, 1200)
 
+  }
+
+  function handleCancelSearch() {
+    setTextInput('');
+    clearCity();
   }
 
   return (
@@ -39,6 +45,12 @@ const HeaderView: React.FC = () => {
           onChange={(e) => handleInput(e.target.value)}
           value={textInput}
         />
+
+        {textInput.length >= 2 &&
+          <button onClick={handleCancelSearch}>
+            <XCircle />
+          </button>
+        }
       </InputContainer>
     </Nav>
   )

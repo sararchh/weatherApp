@@ -38,7 +38,17 @@ export const InputContainer = styled.div`
     align-items: center;
     justify-content: center;
     
-    
+    button { 
+      margin-top: 5.5rem;
+      margin-left: -40px;
+      border: none;
+      outline: none;
+      background: transparent;
+
+      svg {
+      color: var(--text);
+      }
+    }
    
   `;
 export const Input = styled.input`
@@ -47,7 +57,6 @@ export const Input = styled.input`
     border: none;
     border-radius: 2rem;
     padding: 1.5rem;
-    color: var(--white);
     margin-top: 5.5rem;
     color: var(--text);
     font-size: 0.9rem;

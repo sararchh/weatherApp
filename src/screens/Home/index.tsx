@@ -5,42 +5,54 @@ import HeaderView from '../../components/Header';
 import NoData from '../../components/NoData';
 import { WeatherContext } from '../../context/useWeather';
 
-import { ContentCards } from './styles';
+import { ContentCards, ContentTitle } from './styles';
 
 type Props = {
 
 }
 
 const HomeScreen: React.FC<Props> = () => {
-  const { listCity, cityDatabase } = React.useContext(WeatherContext);
+  const { listCity, cityDatabase, searchMode } = React.useContext(WeatherContext);
 
   return (
     <>
       <HeaderView />
+      {searchMode &&
+        <>
+          {Boolean(listCity.length) &&
+            <ContentCards>
 
-      {Boolean(listCity.length) &&
-        <ContentCards>
-          <div>
-            <p>Resultados da Pesquisa:</p>
-          </div>
-          {listCity.map((city: any) => (
-            <CardSearch key={city.id} item={city} />
-          ))}
-        </ContentCards>
+              <ContentTitle>
+                <p>Resultados da Pesquisa:</p>
+              </ContentTitle>
+
+              {listCity.map((city: any) => (
+                <CardSearch key={city.id} item={city} />
+              ))}
+
+            </ContentCards>
+          }
+          {/* {!Boolean(listCity.length) && (
+        <NoData title="Cidade não encontrada. Tente novamente" />
+      )} */}
+        </>
       }
 
-      {!Boolean(cityDatabase.length) && (
-        <NoData title="Sem cidades adicionadas, faça a busca adicione a cidade de sua preferência." />
-      )}
+      {!searchMode &&
+        <>
+          {!Boolean(cityDatabase.length) && (
+            <NoData title="Sem cidades adicionadas, faça a busca adicione a cidade de sua preferência." />
+          )}
 
-      <ContentCards>
-        {Boolean(cityDatabase.length) && (
-          cityDatabase.map((city: any, index: number) => (
-            <CardCity key={index} item={city} />
-          ))
-        )}
-      </ContentCards>
-
+          <ContentCards>
+            {Boolean(cityDatabase.length) && (
+              cityDatabase.sort((a:any, b:any) => b.favorite - a.favorite).map((city: any, index: number) => (
+                <CardCity key={index} item={city} />
+              ))
+            )}
+          </ContentCards>
+        </>
+      }
     </>
   )
 }
