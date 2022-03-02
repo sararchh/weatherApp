@@ -46,23 +46,39 @@ export function WeatherProvider({ children, ...rest }: WeatherProviderProps) {
     // console.log(data);
 
 
-    const cities = getStorageParse("@cities");
-    if (cities.length > 0) {
-      const newArray: any = [];
-      cities.forEach(async (city: any) => {
-        const { data: {daily} } = await openWeatherApi.get(`/onecall?lat=${city.latitude}&lon=${city.longitude}&exclude=current,minutely,hourly,alerts&lang=pt_br&units=${"metric"}&appid=${process.env.OPEN_WEATHER_API_KEY}`)
+    try {
+      const cities = getStorageParse("@cities");
 
-        newArray.push({
-          ...city,
-          temperature: daily[0]?.temp?.day,
-          temp_max: daily[0]?.temp?.max,
-          temp_min: daily[0]?.temp?.min,
-          description: daily[0]?.weather[0]?.description,
-        })
-      })
-      setCityDatabase(newArray);
-      localStorage.setItem("@cities", JSON.stringify(newArray));
+      if (cities && cities.length > 0) {
+        let newArray: any = [];
+        for (let index = 0; index < cities.length; index++) {
+          const element = cities[index];
+
+          const values = await getWeatherData(element);
+
+          newArray.push(values);
+        }
+        setCityDatabase(newArray);
+        localStorage.setItem("@cities", JSON.stringify(newArray));
+      }
+    } catch (error) {
+      // console.log("erro data", error);
+
     }
+
+  }
+
+  async function getWeatherData(city: any) {
+
+    const { data: { daily } } = await openWeatherApi.get(`/onecall?lat=${city.latitude}&lon=${city.longitude}&exclude=current,minutely,hourly,alerts&lang=pt_br&units=${"metric"}&appid=${process.env.OPEN_WEATHER_API_KEY}`)
+
+    return {
+      ...city,
+      temperature: daily[0]?.temp?.day,
+      temp_max: daily[0]?.temp?.max,
+      temp_min: daily[0]?.temp?.min,
+      description: daily[0]?.weather[0]?.description,
+    };
 
   }
 
@@ -101,30 +117,36 @@ export function WeatherProvider({ children, ...rest }: WeatherProviderProps) {
     setSearchMode(false);
   }
 
-  function addNewCity(city: CardCityProps) {
-    const citiesStorage = getStorageParse("@cities");
-    // console.log("citiesStorage", citiesStorage);
+  async function addNewCity(city: CardCityProps) {
+    try {
+      const citiesStorage = getStorageParse("@cities");
+      // console.log("citiesStorage", citiesStorage);
 
-    let newArray = [];
+      let newArray = [];
 
-    if (citiesStorage) {
-      const exists = citiesStorage.find((item: any) => item.id == city.id);
+      if (citiesStorage) {
+        const exists = citiesStorage.find((item: any) => item.id == city.id);
 
-      if (exists) {
-        const restant = citiesStorage.filter((item: any) => item.id != city.id)
-        newArray.push(restant);
+        if (exists) {
+          const restant = citiesStorage.filter((item: any) => item.id != city.id)
+          newArray.push(restant);
 
-        toast.warn("Cidade removida")
+          toast.warn("Cidade removida")
+        } else {
+          newArray = [...citiesStorage, city];
+        }
+
       } else {
-        newArray = [...citiesStorage, city];
+        newArray.push(city);
       }
 
-    } else {
-      newArray.push(city);
-    }
+      localStorage.setItem("@cities", JSON.stringify(newArray));
+      setCityDatabase(newArray);
+      getDataWeatherOfCities();
+    } catch (error) {
+      // console.log("erro add city", error);
 
-    localStorage.setItem("@cities", JSON.stringify(newArray));
-    setCityDatabase(newArray);
+    }
   }
 
   function handleAddFavorite(item: any) {
