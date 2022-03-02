@@ -52,9 +52,9 @@ export function WeatherProvider({ children, ...rest }: WeatherProviderProps) {
       if (cities && cities.length > 0) {
         let newArray: any = [];
         for (let index = 0; index < cities.length; index++) {
-          const element = cities[index];
+          const city = cities[index];
 
-          const values = await getWeatherData(element);
+          const values = await getWeatherData(city);
 
           newArray.push(values);
         }
