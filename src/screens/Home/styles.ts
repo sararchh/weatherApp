@@ -23,6 +23,10 @@ p{
 
 ${media.lessThan("medium")`
   width: 100%;
+
+  p {
+    margin-left: 30px;
+  }
   `}
   
 `

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import media from 'styled-media-query';
 
 export const Container = styled.div`
 width: 40rem;
@@ -8,6 +9,11 @@ border-radius: 0.2rem;
 box-shadow: 0px 0px 13px -7px rgba(0,0,0,0.48);
 padding: 1.2rem 1rem;
 margin: 0.6rem 0;
+
+${media.lessThan("medium")`
+    width: 90%;
+`}
+
 `
 
 export const ContentTop = styled.div`

@@ -26,6 +26,11 @@ export const Nav = styled.nav`
   
   ${media.lessThan("medium")`
   padding: 1rem 3rem;
+
+  div{
+    margin: 0;
+    height: 3rem;
+  }
   `}
 
   `;
@@ -45,6 +50,10 @@ export const InputContainer = styled.div`
       outline: none;
       background: transparent;
 
+      ${media.lessThan("medium")`
+     margin-top: 3.5rem;
+     `}
+
       svg {
       color: var(--text);
       }
@@ -60,4 +69,8 @@ export const Input = styled.input`
     margin-top: 5.5rem;
     color: var(--text);
     font-size: 0.9rem;
+
+    ${media.lessThan("medium")`
+     margin-top: 3.5rem;
+    `}
   `;

@@ -129,7 +129,7 @@ export function WeatherProvider({ children, ...rest }: WeatherProviderProps) {
 
         if (exists) {
           const restant = citiesStorage.filter((item: any) => item.id != city.id)
-          newArray.push(restant);
+          newArray = restant;
 
           toast.warn("Cidade removida")
         } else {
@@ -153,7 +153,7 @@ export function WeatherProvider({ children, ...rest }: WeatherProviderProps) {
     const selected = cityDatabase.find((i: any) => i.id == item.id);
     const restant = cityDatabase.filter((i: any) => i.id != item.id);
 
-    const itemSelected: any = { ...selected, favorite: true }
+    const itemSelected: any = { ...selected, favorite: !selected.favorite }
     const newArray = [...restant, itemSelected];
     setCityDatabase(newArray);
 

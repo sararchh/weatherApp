@@ -28,13 +28,13 @@ const CardCity: React.FC<itemProps> = ({ item }) => {
         <div>
           <h3>{item.place_name}</h3>
         </div>
-        <p>{item.temperature?.toFixed(0)}º</p>
+        <p>{item.temperature?.toFixed(0)}ºC</p>
       </ContentTop>
 
       <ContentBottom>
         <div>
           <p className="text01">{item.description}</p>
-          <p>{item?.temp_min.toFixed(0)}º - {item?.temp_max.toFixed(0)}º</p>
+          <p>{item?.temp_min && item?.temp_min.toFixed(0)}ºC - {item?.temp_max && item?.temp_max.toFixed(0)}ºC</p>
         </div>
 
         <button onClick={() => handleAddFavorite(item)}>
